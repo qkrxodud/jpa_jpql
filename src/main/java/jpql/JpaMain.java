@@ -30,11 +30,15 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            List<Member> resultList = em.createQuery("select m from Member m left join Team t on m.username = t.name", Member.class)
+            List<Object[]> resultList = em.createQuery("select m.username, 'HELLO', true from Member m left join Team t on m.username = t.name")
                     .getResultList();
             System.out.println(resultList.size());
-            for (Member member1 : resultList) {
-                System.out.println("member = " + member1);
+
+            for (Object[] objects : resultList) {
+                System.out.println(objects[0]);
+                System.out.println(objects[1]);
+                System.out.println(objects[2]);
+
             }
 
 
