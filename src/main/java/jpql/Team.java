@@ -25,6 +25,14 @@ public class Team {
         this.id = id;
     }
 
+    public List<Member> getMemberList() {
+        return memberList;
+    }
+
+    public void setMemberList(List<Member> memberList) {
+        this.memberList = memberList;
+    }
+
     public String getName() {
         return name;
     }
