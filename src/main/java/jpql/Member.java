@@ -15,6 +15,16 @@ public class Member {
     private Team team;
     private int age;
 
+    private MemberType type;
+
+    public MemberType getType() {
+        return type;
+    }
+
+    public void setType(MemberType type) {
+        this.type = type;
+    }
+
     public Team getTeam() {
         return team;
     }

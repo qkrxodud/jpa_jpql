@@ -21,6 +21,7 @@ public class JpaMain {
 
             Member member = new Member();
             member.setUsername("TeamA");
+            member.setType(MemberType.ADMIN);
             member.setAge(10);
 
             member.setTeam(team);
@@ -30,7 +31,10 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            List<Object[]> resultList = em.createQuery("select m.username, 'HELLO', true from Member m left join Team t on m.username = t.name")
+            String query = "select m.username, 'HELLO', true" +
+                            " From Member m " +
+                            "where m.type = jpql.MemberType.USER";
+            List<Object[]> resultList = em.createQuery(query)
                     .getResultList();
             System.out.println(resultList.size());
 
