@@ -20,7 +20,7 @@ public class JpaMain {
             em.persist(team);
 
             Member member = new Member();
-            member.setUsername("member");
+            member.setUsername("TeamA");
             member.setAge(10);
 
             member.setTeam(team);
@@ -30,7 +30,7 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            List<Member> resultList = em.createQuery("select m from Member m left outer join m.team t on t.name = 'teamA'")
+            List<Member> resultList = em.createQuery("select m from Member m left join Team t on m.username = t.name", Member.class)
                     .getResultList();
             System.out.println(resultList.size());
             for (Member member1 : resultList) {
