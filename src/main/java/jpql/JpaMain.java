@@ -16,28 +16,45 @@ public class JpaMain {
 
         try {
 
+            Team teamA = new Team();
+            teamA.setName("팀A");
+            em.persist(teamA);
+
+            Team teamB = new Team();
+            teamB.setName("팀B");
+            em.persist(teamB);
+
             Member member1 = new Member();
             member1.setUsername("TeamA");
             member1.setAge(10);
+            member1.setTeam(teamA);
             em.persist(member1);
 
             Member member2 = new Member();
             member2.setUsername("TeamA");
+            member2.setTeam(teamA);
             member2.setAge(10);
-
             em.persist(member2);
+
+            Member member3 = new Member();
+            member3.setUsername("TeamB");
+            member3.setTeam(teamB);
+            member3.setAge(10);
+            em.persist(member3);
 
             em.flush();
             em.clear();
 
-            String query = "select function('group_concat', m.username) FROM Member m";
-            List<String> resultList = em.createQuery(query, String.class)
+            String query = "select m.username FROM Team t join t.memberList m";
+            //String query = "select m FROM Member m";
+            // From 절에서 명시적 조인을 통해서 별칭을 얻으면 별칭을 통해 탐색 가능.
+
+            List<Member> resultList = em.createQuery(query, Member.class)
                     .getResultList();
             System.out.println(resultList.size());
-            for (String s : resultList) {
-                System.out.println(s);
+            for (Member member : resultList) {
+                System.out.println("Member = " + member.getUsername() + ", "+ member.getTeam().getName());
             }
-
 
             tx.commit();
         } catch (Exception e) {
