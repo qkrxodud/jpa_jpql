@@ -45,15 +45,21 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            String query = "select m.username FROM Team t join t.memberList m";
+            String query = "select distinct t FROM Team t";
             //String query = "select m FROM Member m";
             // From 절에서 명시적 조인을 통해서 별칭을 얻으면 별칭을 통해 탐색 가능.
 
-            List<Member> resultList = em.createQuery(query, Member.class)
+            List<Team> resultList = em.createQuery(query, Team.class)
+                    .setFirstResult(0)
+                    .setMaxResults(2)
                     .getResultList();
-            System.out.println(resultList.size());
-            for (Member member : resultList) {
-                System.out.println("Member = " + member.getUsername() + ", "+ member.getTeam().getName());
+
+
+            for (Team team : resultList) {
+                System.out.println("Member = " + team.getName() + ", "+ team.getMemberList().size());
+                for(Member member : team.getMemberList()) {
+                    System.out.println("- member = " + member);
+                }
             }
 
             tx.commit();
